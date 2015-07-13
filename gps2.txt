@@ -1,0 +1,1 @@
+784: GPS_RAW_INT {time_usec : 0, fix_type : 1, lat : 594047672, lon : 179551383, alt : 72540, eph : 9999, epv : 65535, vel : 0, cog : 0, satellites_visible : 0}
