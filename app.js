@@ -29,7 +29,7 @@ fs.readFile('gps.txt', 'utf8', function (err,data) {
 	});
 });*/
 
-MongoClient.connect('mongodb://admin:password@ds047672.mongolab.com:47672/wifisniff', function(err, db) {
+MongoClient.connect('mongodb://admin:password@ds053312.mongolab.com:53312/near', function(err, db) {
 	if(err) {
 		console.log(err);
 	} else {
@@ -50,7 +50,7 @@ MongoClient.connect('mongodb://admin:password@ds047672.mongolab.com:47672/wifisn
 
 				console.log(writeObj);
 
-				db.collection('gpsdata').insert(writeObj, function(err, recors) {
+				db.collection('droneentries').insert(writeObj, function(err, recors) {
 					if(err) throw err;
 					console.log("inserted data");
 				});
