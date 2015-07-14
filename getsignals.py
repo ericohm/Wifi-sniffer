@@ -17,7 +17,7 @@ def getGPS():
     '''The output from this command is stored in a text file, which means the last row are the most recent coordinates'''
    
     '''Take in the most recent file'''
-    files = glob.glob(os.path.abspath("/home/kshan/GPS.txt"))
+    files = glob.glob(os.path.abspath("/home/pi/test.txt"))
     files.sort()
     fileX = files[-1]
 
@@ -50,7 +50,7 @@ def getGPS():
 
 def newPoint(x,y):
     '''files variable stores all the netxml files in the folder in a list, it then sorts it and takes out the most recent one'''
-    files = glob.glob(os.path.abspath("/home/kshan/Test/*.netxml"))
+    files = glob.glob(os.path.abspath("/home/pi/Test/*.netxml"))
     files.sort()
 
     gpsx = x
@@ -64,17 +64,17 @@ def newPoint(x,y):
     try:
         signals = pickle.load(open(iteration+".p",'rb'))
     except (OSError,IOError):
-        signals = []
+        signals = {}
     
     '''Every signal is linked to a macaddress and takes the time stamp, gps coordinates and signal strength and puts it  '''
     '''in a json compatiable dictionary'''
     for info in root.findall('wireless-network'):
-        last_time = info.attrib["first-time"]
+        last_time = info.attrib["last-time"]
         bssid = info.find('BSSID').text
         last_signal = int(info.find('snr-info')[0].text)+10
         essid = info.find('SSID')
         if essid == None:
-            temp = {"Signal":last_signal,"Time":last_time, "Longitude":gpsx,"Latitude":gpsy}
+            temp = {"Signal":last_signal,"Time":last_time, "Longitude":gpsy,"Latitude":gpsx}
             if bssid in signals:
                 if signals[bssid][-1]["Time"] != last_time:
                     signals[bssid].append(temp)
@@ -84,12 +84,9 @@ def newPoint(x,y):
         else:
             print("This is a router")
 
-    #for i in signals:
-        #print(i,signals[i])
-        #print(signals[i][len(signals[i])-1])
     print("\n")
     print(signals)
-    #time.sleep(0.1)
+    print("\n")
 
     '''Saving the dictionary to a pickle and a text file'''
     pickle.dump(signals,open(iteration+".p","wb"))
