@@ -81,11 +81,11 @@ def newPoint(x,y):
             else:
                 signals[bssid]=[]
                 signals[bssid].append(temp)
-        else:
-            print("This is a router")
+    
 
     print("\n")
-    print(signals)
+    for i in signals:
+        print(signals[i])
     print("\n")
 
     '''Saving the dictionary to a pickle and a text file'''
