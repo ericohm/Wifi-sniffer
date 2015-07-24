@@ -65,7 +65,7 @@ fs.readFile('gps.txt', 'utf8', function (err,data) {
 var headers = {
     'User-Agent':       'Super Agent/0.0.1',
     'Content-Type':     'application/x-www-form-urlencoded',
-    'x-access-token': 	'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiT3NjYXIgQWxzaW5nIiwidXNlcm5hbWUiOiJvc2Npc3BybyIsImlkIjoiNTU5YTUyNWFhMzU5Njg5M2QwNTliNDZhIiwiaWF0IjoxNDM2OTY5NTY1LCJleHAiOjE0MzcwNTU5NjV9.6fEpgIO2B0NzTRJfoV3dbwc-3dREgroPqIilJUIY_7Y'
+    'x-access-token': 	'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJuYW1lIjoiT3NjYXIgQWxzaW5nIiwidXNlcm5hbWUiOiJvc2Npc3BybyIsImlkIjoiNTU5YTUyNWFhMzU5Njg5M2QwNTliNDZhIiwiaWF0IjoxNDM3NzI5NjI5LCJleHAiOjE0Mzc4MTYwMjl9.65AAOqZ68rUUe3hrw735Yh1cDUSey0k7vhdjRel5YJU'
 }
 
 fs.readFile('signals.txt', 'utf8', function(err, data) {
@@ -78,23 +78,20 @@ fs.readFile('signals.txt', 'utf8', function(err, data) {
 				//console.log(json[key]);
 				var writeObj = {
 					mac: key,
-					properties: json[key]
+					entries: json[key].Entries,
+					estimate: json[key].Estimate
 				};
 
-				writeObj.properties.forEach(function(entry) {
-					// Configure the request
-					var options = {
-					    url: 'https://quiet-citadel-6617.herokuapp.com/api/droneentry/',
+				var options = {
+					url: 'http://localhost:8080/api/droneentries',
 					    method: 'POST',
 					    headers: headers,
 					    form: {
 					    	'mac': key, 
-					    	'lng': entry.Longitude,
-					    	'lat': entry.Latitude,
-					    	'signal': entry.Signal,
-					    	'time': 	entry.Time
+                            'entries': writeObj.entries,
+                            'estimate': writeObj.estimate
 					    }
-					};
+				}
 
 									// Start the request
 				request(options, function (error, response, body) {
@@ -106,10 +103,7 @@ fs.readFile('signals.txt', 'utf8', function(err, data) {
 				    }
 				});
 
-				})
-
 				console.log(writeObj);
 
-				
-			};
+				}
 		});	
