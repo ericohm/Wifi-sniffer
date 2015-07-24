@@ -30,20 +30,13 @@ def getGPS():
     lat_index = last.index("lat")+6
     lon_index = last.index("lon")+6
 
-    '''Since coorinates have 6 decimals, we divide the coordinates by 1000000 and take in the right string for that'''
-    '''A coordinate can be either 8 or 9 charachters long'''
-    if last[lat_index+9]==",":
-        lat = float(last[lat_index:lat_index+8])/1000000
-    else:
-        lat = float(last[lat_index:lat_index+9])/1000000
+    lat_comma = last[lat_index:lat_index+12].index(",")
+    lat_string = last[lat_index:lat_index+lat_comma]
+    lat = float(lat_string)/(10**7)
 
-    if last[lat_index+9]==",":
-        lon = float(last[lon_index:lon_index+8])/1000000
-    else:
-        lon = float(last[lonindex:lon_index+9])/1000000
-
-    lat = float(lat)
-    lon = float(lon)
+    lon_comma = last[lon_index:lon_index+12].index(",")
+    lon_string = last[lon_index:lon_index+lon_comma]
+    lon = float(lon_string)/(10**7)
 
     return lat,lon
     
@@ -71,29 +64,20 @@ def newPoint(x,y):
     for info in root.findall('wireless-network'):
         last_time = info.attrib["last-time"]
         bssid = info.find('BSSID').text
-        last_signal = int(info.find('snr-info')[0].text)+10
+        last_signal = int(info.find('snr-info')[0].text)
         essid = info.find('SSID')
         if essid == None:
             temp = {"Signal":last_signal,"Time":last_time, "Longitude":gpsy,"Latitude":gpsx}
             if bssid in signals:
-                if signals[bssid][-1]["Time"] != last_time:
-                    signals[bssid].append(temp)
+                if signals[bssid]["Entries"][-1]["Time"] != last_time:
+                    signals[bssid]["Entries"].append(temp)
             else:
-                signals[bssid]=[]
-                signals[bssid].append(temp)
-    
+                signals[bssid]["Entries"] = []
+                signals[bssid]["Entries"].append(temp)
 
-    print("\n")
-    for i in signals:
-        print(signals[i])
-    print("\n")
-
-    '''Saving the dictionary to a pickle and a text file'''
+    '''Saving the dictionary to a pickle''''
     pickle.dump(signals,open(iteration+".p","wb"))
-    jsonString = json.dumps(signals)
-    text_file = open("signals.txt", "w")
-    text_file.write(jsonString)
-    text_file.close()
-
+    
+    '''After this script is run for the last time, the script approximate.py is run to add our best estimates'''
 x,y = getGPS()
 newPoint(x,y)
