@@ -6,7 +6,9 @@ import xml.etree.ElementTree as ET
 import pickle
 import glob, os
 import time
+from time import *
 import json
+import picamera
 
 
 #Nameing the file we save to as default
@@ -79,5 +81,17 @@ def newPoint(x,y):
     pickle.dump(signals,open(iteration+".p","wb"))
     
     '''After this script is run for the last time, the script approximate.py is run to add our best estimates'''
+
+def takePicture(x,y):
+    '''Function that takes in x,y (latitude longitude) and a name and takes a picture, and saves the picture to that name.'''
+    with picamera.PiCamera() as camera:
+        x=str(x)
+        y=str(y)
+        '''Really ugly solution, need to figure out how to make exif_tags['GPS.GPSLongitude'] etc work '''
+        camera.exif_tags['IFD0.Copyright']=x+','+y
+        date = strftime("%d %b %Y %H:%M:%S", gmtime())
+        camera.capture(date+'.jpeg')
+    
 x,y = getGPS()
+takePicture(x,y)
 newPoint(x,y)
