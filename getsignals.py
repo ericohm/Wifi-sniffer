@@ -8,6 +8,7 @@ import glob, os
 import time
 import json
 import picamera
+#import base64
 
 
 #Nameing the file we save to as default
@@ -84,8 +85,10 @@ def newPoint(x,y):
 def takePicture(x,y):
     '''Function that takes in x,y (latitude longitude) and a name and takes a picture, and saves the picture to that name.'''
     with picamera.PiCamera() as camera:
-        name = str(x) +","+ str(y)
-        camera.capture(name+'.jpeg')
+        name = str(x) +","+ str(y)+".jpg"
+        camera.capture(name)
+    #baseString = base64.encodestring(open(name,"rb").read())
+    
     
 x,y = getGPS()
 takePicture(x,y)
