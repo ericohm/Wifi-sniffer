@@ -1,6 +1,7 @@
 #!/bin/bash
 echo none > /sys/class/leds/led0/trigger
 rm /home/pi/Test/*.*
+rm /home/pi/Pictures/*.*
 rm test.txt
 rm signals.txt
 rm default.p
