@@ -32,7 +32,7 @@ done
 
 
 echo "MavProxy is Online!"
- echo heartbeat > /sys/class/leds/led0/trigger
+echo heartbeat > /sys/class/leds/led0/trigger
 for i in {1..10000}
 do
         sleep 1
