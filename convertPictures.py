@@ -13,7 +13,7 @@ for i in files:
 	longitude = i[comma_index+1:jpg_index]
 	baseString = base64.encodestring(open(i,"rb").read())
 	temp = {"Latitude":latitude,"Longitude":longitude,"Image":str(baseString)}
-	drone["Entries"].append = temp
+	drone["Entries"].append(temp)
 
 jsonString = json.dumps(drone)
 text_file = open("dronepath.txt","w")
