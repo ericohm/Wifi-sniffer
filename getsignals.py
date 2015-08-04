@@ -82,7 +82,7 @@ def newPoint(lat,lon):
                     signals[bssid]["Entries"].append(temp)
             else:
             	signals[bssid] = {}
-                signals[bssid]["Entries"] = []
+            	signals[bssid]["Entries"] = []
                 signals[bssid]["Entries"].append(temp)
 
     '''Saving the dictionary to a pickle'''
