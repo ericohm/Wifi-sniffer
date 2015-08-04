@@ -42,13 +42,16 @@ def getGPS2():
     return lat,lon
 
 def getGPS():
-    cords = pickle.load(open("gps.p","rb"))
-    latitude = cords[0]
-    longitude = cords[1]
-    return latitude,longitude
-    
-    
-    
+	realcords = False
+	while realcords ==False:
+		cords = pickle.load(open("gps.p","rb"))
+		latitude = cords[0]
+		longitude = cords[1]
+		if latitude != None:
+			realcords = True
+		time.sleep(1)
+		print(latitude,longitude)
+	return latitude,longitude
 
 def newPoint(lat,lon):
     '''files variable stores all the netxml files in the folder in a list, it then sorts it and takes out the most recent one'''
