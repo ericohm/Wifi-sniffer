@@ -8,7 +8,7 @@ import json
 #Eric Ohman 24/7 2015
 #This script takes in all our points for each macAddress and returns our best estimate of where that person is
 #based on the signal strengths.
-
+iteration = "default"
 try:
 	signals = pickle.load(open(iteration+".p",'rb'))
 except (OSError,IOError,NameError):
