@@ -10,6 +10,7 @@ rm /home/pi/Pictures/*.*
 rm signals.txt
 rm default.p
 sudo iw phy phy0 interface add mon0 type monitor > /dev/null 2>&1 &
+sleep 1
 sudo iw dev wlan0 del > /dev/null 2>&1 &
 kismet_server > /dev/null 2>&1 &
 python gpstotext.py &
