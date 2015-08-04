@@ -13,7 +13,7 @@ import picamera
 #Nameing the file we save to as default
 iteration = "default"
 
-def getGPS():
+def getGPS2():
     '''The drones pixhawk can recieve a command which gives the GPS coordinates for the drone'''
     '''The output from this command is stored in a text file, which means the last row are the most recent coordinates'''
    
@@ -40,6 +40,14 @@ def getGPS():
     lon = float(lon_string)/(10**7)
 
     return lat,lon
+
+def getGPS():
+    cords = pickle.load(open("gps.p","rb"))
+    latitude = cords[0]
+    longitude = cords[1]
+    return latitude,longitude
+    
+    
     
 
 def newPoint(lat,lon):
