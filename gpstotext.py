@@ -1,7 +1,8 @@
 #! /usr/bin/python
 # Written by Dan Mandle http://dan.mandle.me September 2012
 # License: GPL 2.0
- 
+
+import math
 import os
 from gps import *
 from time import *
@@ -31,7 +32,10 @@ if __name__ == '__main__':
   try:
     gpsp.start() # start it up
     while True:
-      cords = [gpsd.fix.latitude,gpsd.fix.longitude]
+      if math.isnan(gpsd.fix.latitude) or math.isnan(gpsd.fix.longitude):
+        cords = [None,None]
+      else:
+        cords = [gpsd.fix.latitude,gpsd.fix.longitude]
       pickle.dump(cords,open("gps.p","wb"))
       time.sleep(1) #set to whatever
  
