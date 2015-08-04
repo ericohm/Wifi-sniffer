@@ -50,6 +50,9 @@ def getGPS():
 		if latitude != None:
 			realcords = True
 		time.sleep(1)
+		realcords = True
+		longitude = 17.1212
+		latitude = 57.1231
 		print(latitude,longitude)
 	return latitude,longitude
 
