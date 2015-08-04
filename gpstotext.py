@@ -27,21 +27,19 @@ class GpsPoller(threading.Thread):
  
 if __name__ == '__main__':
   gpsp = GpsPoller() # create the thread
+  lat = 0
+  lon = 0
   try:
     gpsp.start() # start it up
-    lat_temp = 17.100001
-    lon_temp = 57.100001
     
     while True:
       if math.isnan(gpsd.fix.latitude) or math.isnan(gpsd.fix.longitude):
-        cords = [None,None]
+        cords = [lat,lon]
       else:
-        cords = [gpsd.fix.latitude,gpsd.fix.longitude]
-      cords = [lat_temp,lon_temp]
-      lat_temp = lat_temp+0.000001
-      lon_temp = lon_temp+0.000001
+       lat,lon = gpsd.fix.latitude,gpsd.fix.longitude
+      cords = [lat,lon]
       pickle.dump(cords,open("gps.p","wb"))
-      time.sleep(1) #set to whatever
+      time.sleep(0.5) #set to whatever
  
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
     print "\nKilling Thread..."
