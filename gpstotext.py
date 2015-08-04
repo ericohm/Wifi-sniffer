@@ -29,11 +29,17 @@ if __name__ == '__main__':
   gpsp = GpsPoller() # create the thread
   try:
     gpsp.start() # start it up
+    lat_temp = 17.100001
+    lon_temp = 57.100001
+    
     while True:
       if math.isnan(gpsd.fix.latitude) or math.isnan(gpsd.fix.longitude):
         cords = [None,None]
       else:
         cords = [gpsd.fix.latitude,gpsd.fix.longitude]
+      cords = [lat_temp,lon_temp]
+      lat_temp = lat_temp+0.000001
+      lon_temp = lon_temp+0.000001
       pickle.dump(cords,open("gps.p","wb"))
       time.sleep(1) #set to whatever
  
