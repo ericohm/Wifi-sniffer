@@ -42,15 +42,9 @@ def getGPS2():
     return lat,lon
 
 def getGPS():
-	realcords = False
-	while realcords ==False:
-		cords = pickle.load(open("gps.p","rb"))
-		latitude = cords[0]
-		longitude = cords[1]
-		if latitude != None:
-			realcords = True
-		time.sleep(1)
-		print(latitude,longitude)
+	cords = pickle.load(open("gps.p","rb"))
+	latitude = cords[0]
+	longitude = cords[1]
 	return latitude,longitude
 
 def newPoint(lat,lon):
