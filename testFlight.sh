@@ -21,7 +21,7 @@ sleep 30
 echo "Everything up and running"
 
 echo heartbeat > /sys/class/leds/led0/trigger
-python3 sdr.py &
+#python3 sdr.py &
 for i in {1..10000}
 do      
         sleep 5
