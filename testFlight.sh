@@ -34,8 +34,8 @@ do
         sleep 3
         python3 getsignals.py
         sleep 2
-        sudo echo -e '!1 SHUTDOWN' | nc localhost 2501
-        kismet_server > /dev/null 2>&1 &
+        #sudo echo -e '!1 SHUTDOWN' | nc localhost 2501
+        #kismet_server > /dev/null 2>&1 &
         
 done
 
