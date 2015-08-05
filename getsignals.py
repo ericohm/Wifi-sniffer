@@ -8,6 +8,7 @@ import glob, os
 import time
 import json
 import picamera
+import datetime
 
 
 #Nameing the file we save to as default
@@ -86,8 +87,10 @@ def newPoint(lat,lon):
 
 def takePicture(lat,lon):
     '''Function that takes in x,y (latitude longitude) and a name and takes a picture, and saves the picture to that name.'''
+    ts = time.time()
+    st = "DATE: "+datetime.datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
     with picamera.PiCamera() as camera:
-        name = str(lat) +","+ str(lon)+".jpg"
+        name = "CORDS: "+str(lat) +","+ str(lon)+st+".jpg"
         camera.capture(name)
 
 lat,lon = getGPS()
