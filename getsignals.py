@@ -14,34 +14,6 @@ import datetime
 #Nameing the file we save to as default
 iteration = "default"
 
-def getGPS2():
-    '''The drones pixhawk can recieve a command which gives the GPS coordinates for the drone'''
-    '''The output from this command is stored in a text file, which means the last row are the most recent coordinates'''
-   
-    '''Take in the most recent file'''
-    files = glob.glob(os.path.abspath("/home/pi/test.txt"))
-    files.sort()
-    fileX = files[-1]
-
-    '''Read in the last row'''
-    with open(fileX, 'rb') as fh:
-        last = fh.readlines()[-1].decode()
-    last = str(last)
-
-    '''Look for index where the longitude and latitue coordinates begin in this row string'''
-    lat_index = last.index("lat")+6
-    lon_index = last.index("lon")+6
-
-    lat_comma = last[lat_index:lat_index+12].index(",")
-    lat_string = last[lat_index:lat_index+lat_comma]
-    lat = float(lat_string)/(10**7)
-
-    lon_comma = last[lon_index:lon_index+12].index(",")
-    lon_string = last[lon_index:lon_index+lon_comma]
-    lon = float(lon_string)/(10**7)
-
-    return lat,lon
-
 def getGPS():
 	cords = pickle.load(open("gps.p","rb"))
 	latitude = cords[0]
@@ -75,7 +47,7 @@ def newPoint(lat,lon):
             if bssid in signals:
                 if signals[bssid]["Entries"][-1]["Time"] != last_time:
                     signals[bssid]["Entries"].append(temp)
-                    print("Appended another file aight?")
+                    print(temp["Signal":])
             else:
             	signals[bssid] = {"Entries":[]}
             	signals[bssid]["Entries"].append(temp)
@@ -96,8 +68,6 @@ def takePicture(lat,lon):
         name = "CORDS: "+str(lat) +","+ str(lon)+st+".jpg"
         camera.capture(name)
 
-for i in range(0,1000):
-	lat,lon = getGPS()
-	newPoint(lat,lon)
-	takePicture(lat,lon)
-	time.sleep(5)
+lat,lon = getGPS()
+newPoint(lat,lon)
+takePicture(lat,lon)
