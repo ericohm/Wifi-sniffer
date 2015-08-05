@@ -25,7 +25,10 @@ echo heartbeat > /sys/class/leds/led0/trigger
 for i in {1..10000}
 do      
         sleep 5
+        echo " "
+        echo "---- getsignals.py begins ----"
         python3 getsignals.py
+        echo "---- getsignals.py ends ----"
         sudo echo -e '!1 SHUTDOWN' | nc localhost 2501
         kismet_server > /dev/null 2>&1 &
 done
