@@ -63,6 +63,7 @@ def newPoint(lat,lon):
     except (OSError,IOError):
         signals = {}
     
+    print("\n Does this take up all the time? :\n")
     '''Every signal is linked to a macaddress and takes the time stamp, gps coordinates and signal strength and puts it  '''
     '''in a json compatiable dictionary'''
     for info in root.findall('wireless-network'):
@@ -78,6 +79,7 @@ def newPoint(lat,lon):
             else:
             	signals[bssid] = {"Entries":[]}
             	signals[bssid]["Entries"].append(temp)
+    print("\n No ? \n")
 
     '''Saving the dictionary to a pickle'''
     pickle.dump(signals,open(iteration+".p","wb"))
