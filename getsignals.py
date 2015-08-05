@@ -79,11 +79,12 @@ def newPoint(lat,lon):
             else:
             	signals[bssid] = {"Entries":[]}
             	signals[bssid]["Entries"].append(temp)
-    
-    for i in signals:
-    	print(i)
-    	print(signals[i])
-    	print("\n")
+    try:
+    	for i in signals["34:E2:FD5B:75:8C"]["Entries"]:
+    		print(i)
+    except (KeyError):
+    	print("Eric not found")
+    	
     '''Saving the dictionary to a pickle'''
     pickle.dump(signals,open(iteration+".p","wb"))
     
