@@ -79,7 +79,11 @@ def newPoint(lat,lon):
             else:
             	signals[bssid] = {"Entries":[]}
             	signals[bssid]["Entries"].append(temp)
-
+    
+    for i in signals:
+    	print(i)
+    	print(signals[i])
+    	print("\n")
     '''Saving the dictionary to a pickle'''
     pickle.dump(signals,open(iteration+".p","wb"))
     
@@ -92,10 +96,9 @@ def takePicture(lat,lon):
     with picamera.PiCamera() as camera:
         name = "CORDS: "+str(lat) +","+ str(lon)+st+".jpg"
         camera.capture(name)
+
 for i in range(0,1000):
-	print(" HEYOOOOOOOOOOOOOOOOOOOOOOO")
 	lat,lon = getGPS()
 	newPoint(lat,lon)
 	takePicture(lat,lon)
-	print("HEJ DAAAAAAAAAAAAAAAAAAAAAAAA")
 	time.sleep(5)
