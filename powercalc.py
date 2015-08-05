@@ -15,6 +15,8 @@ from grc_gnuradio import wxgui as grc_wxgui
 from optparse import OptionParser
 import osmosdr
 import wx
+import sys
+import time
 
 class top_block(grc_wxgui.top_block_gui):
 
@@ -33,7 +35,7 @@ class top_block(grc_wxgui.top_block_gui):
         ##################################################
         self.rtlsdr_source_0 = osmosdr.source( args="numchan=" + str(1) + " " + "" )
         self.rtlsdr_source_0.set_sample_rate(samp_rate)
-        self.rtlsdr_source_0.set_center_freq(900e6, 0)
+        self.rtlsdr_source_0.set_center_freq(891e6, 0)
         self.rtlsdr_source_0.set_freq_corr(0, 0)
         self.rtlsdr_source_0.set_dc_offset_mode(0, 0)
         self.rtlsdr_source_0.set_iq_balance_mode(1, 0)
@@ -43,12 +45,18 @@ class top_block(grc_wxgui.top_block_gui):
         self.rtlsdr_source_0.set_bb_gain(20, 0)
         self.rtlsdr_source_0.set_antenna("", 0)
         self.rtlsdr_source_0.set_bandwidth(0, 0)
+
+        try:
+            self.rtlsdr_source_0.get_sample_rates().start()
+        except RuntimeError:
+            print "Source has no sample rates (wrong device arguments?)."
+            sys.exit(1)
           
         self.logpwrfft_x_0 = logpwrfft.logpwrfft_c(
         	sample_rate=samp_rate,
         	fft_size=1024,
         	ref_scale=2,
-        	frame_rate=30,
+        	frame_rate=60,
         	avg_alpha=1.0,
         	average=True,
         )
@@ -74,6 +82,18 @@ class top_block(grc_wxgui.top_block_gui):
         self.logpwrfft_x_0.set_sample_rate(self.samp_rate)
         self.rtlsdr_source_0.set_sample_rate(self.samp_rate)
 
+
+def freq_hop(freq):
+    print "before freq",freq
+    if freq < 915000000:
+        freq = freq+2400000
+    else:
+        freq = 891000000
+    print "after freq",freq
+    return freq
+
+
+
 if __name__ == '__main__':
     import ctypes
     import os
@@ -87,5 +107,22 @@ if __name__ == '__main__':
     (options, args) = parser.parse_args()
     tb = top_block()
     tb.Start(True)
-    tb.Wait()
 
+
+    for i in range(0,60):
+        freq = tb.rtlsdr_source_0.get_center_freq()
+        freq = freq_hop(freq)
+        while (tb.rtlsdr_source_0.set_center_freq(freq, 0) == 0):
+            tb.rtlsdr_source_0.set_center_freq(900000000, 0)
+            print "tryin"
+            time.sleep(2)
+        time.sleep(0.3)
+
+            
+
+
+
+
+    tb.Start(False)
+
+0
