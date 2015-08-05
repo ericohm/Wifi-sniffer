@@ -93,7 +93,8 @@ def takePicture(lat,lon):
     with picamera.PiCamera() as camera:
         name = "CORDS: "+str(lat) +","+ str(lon)+st+".jpg"
         camera.capture(name)
-
-lat,lon = getGPS()
-newPoint(lat,lon)
-takePicture(lat,lon)
+for i in range(0,1000):
+	lat,lon = getGPS()
+	newPoint(lat,lon)
+	takePicture(lat,lon)
+	time.sleep(5)
