@@ -22,11 +22,11 @@ echo "Everything up and running"
 
 echo heartbeat > /sys/class/leds/led0/trigger
 #python3 sdr.py &
-python3 getsignals.py &
+python3 getsignals.py
 for i in {1..10000}
 do      
         sleep 5
-        echo "still running"
+        python3 getsignals.py
 done
 
 
