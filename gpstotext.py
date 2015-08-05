@@ -39,7 +39,7 @@ if __name__ == '__main__':
        lat,lon = gpsd.fix.latitude,gpsd.fix.longitude
       cords = [lat,lon]
       pickle.dump(cords,open("gps.p","wb"))
-      time.sleep(0.5) #set to whatever
+      time.sleep(3) #set to whatever
  
   except (KeyboardInterrupt, SystemExit): #when you press ctrl+c
     print "\nKilling Thread..."
