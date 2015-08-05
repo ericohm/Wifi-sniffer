@@ -76,8 +76,7 @@ def newPoint(lat,lon):
                 if signals[bssid]["Entries"][-1]["Time"] != last_time:
                     signals[bssid]["Entries"].append(temp)
             else:
-            	signals[bssid] = {}
-            	signals[bssid]["Entries"] = []
+            	signals[bssid] = {"Entries":[]}
             	signals[bssid]["Entries"].append(temp)
 
     '''Saving the dictionary to a pickle'''
