@@ -26,8 +26,7 @@ python3 getsignals.py &
 for i in {1..10000}
 do      
         sleep 5
-        sudo echo -e '!1 SHUTDOWN' | nc localhost 2501
-        kismet_server > /dev/null 2>&1 &
+        echo "still running"
 done
 
 
