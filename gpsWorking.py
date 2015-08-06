@@ -15,7 +15,10 @@ def gpsHasStarted():
 end = gpsHasStarted()
 
 while end == False:
+	print("Waiting for gps...")
 	end = gpsHasStarted()
 	time.sleep(1)
+
+print("GPS up and running")
 
 	
