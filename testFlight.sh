@@ -1,7 +1,6 @@
 #!/bin/bash
 echo none > /sys/class/leds/led0/trigger
-rm /home/pi/Test/*.*
-rm /home/pi/*.jpg
+rm ./*.netxml
 rm signals.txt
 rm default.p
 #rm dronepath.txt
@@ -28,12 +27,10 @@ echo "Everything up and running"
 
 echo heartbeat > /sys/class/leds/led0/trigger
 
-python3 getsignals.py
 for i in {1..10000}
 do      
-        sleep 3
         python3 getsignals.py
-        sleep 2
+        sleep 5
         #sudo echo -e '!1 SHUTDOWN' | nc localhost 2501
         #kismet_server > /dev/null 2>&1 &
         
