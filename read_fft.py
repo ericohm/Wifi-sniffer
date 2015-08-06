@@ -12,14 +12,16 @@ class countvar:
 	signals = {"Entries":[]}
 
 def getGPS():
-    #cords = pickle.load(open("gps.p","rb"))
-    cords = [17.123123,57.1234124]
+    cords = pickle.load(open("gps.p","rb"))
     latitude = cords[0]
     longitude = cords[1]
     return latitude,longitude
 
+def getTime():
+    stamp = pickle.load(open("time.p",'rb'))
+    return stamp
 
-def calculate_gsm():
+def calculate_gsm(lat,lon,time):
 	f = scipy.fromfile(open("gsm_power.txt"), dtype=scipy.int8)
 	temp = f[countvar.count_interval:len(f)]
 	count1 = 0
@@ -33,8 +35,7 @@ def calculate_gsm():
 	if bit==1:
 		average = count1/max(count2,1)
 		print(average)
-		lat,lon = getGPS()
-		temp = {"Signal":average, "Longitude":lon,"Latitude":lat}
+		temp = {"Signal":average, "Longitude":lon,"Latitude":lat,"VideoTime":time}
 		countvar.signals["Entries"].append(temp)
 		#print(countvar.signals)
 
@@ -42,7 +43,9 @@ def calculate_gsm():
 	countvar.count_interval = len(f)
 
 for i in range(0,1000):
-	calculate_gsm()
+	lat,lon=getGPS()
+	time =getTime()
+	calculate_gsm(lat,lon,time)
 	'''print(countvar.count_interval)'''
 	time.sleep(1)
 	pickle.dump(countvar.signals,open(iteration+".p","wb"))
