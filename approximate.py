@@ -61,6 +61,6 @@ for i in signals:
 #Save the signals so we can upload it via the app.js script.
 pickle.dump(signals,open(iteration+".p","wb"))
 jsonString = json.dumps(signals)
-text_file = open("signals.txt", "w")
+text_file = open("wifi_signals.txt", "w")
 text_file.write(jsonString)
 text_file.close()
