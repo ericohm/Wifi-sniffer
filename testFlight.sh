@@ -42,8 +42,11 @@ python gpstotext.py &
 gps_pid=$!
 echo "gps PID is ",$gps_pid
 
-echo "Starting up Kismet and GPS"
-sleep 25
+echo "Starting up GPS"
+python3 gpsWorking.py
+
+echo "Giving Kismet some time..."
+sleep 10
 
 ./top_block.py > /dev/null 2>&1 & 
 gnuradio_pid=$! 
