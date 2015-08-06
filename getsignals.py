@@ -26,7 +26,7 @@ def getGPS():
 
 
 #This is where we save the information from the wifi togheter with gps coordinates.
-def newPoint(lat,lon):
+def newPoint(lat,lon,video_time):
     '''files variable stores all the netxml files in the folder in a list, it then sorts it and takes out the most recent one'''
     files = glob.glob(os.path.abspath("/home/ericsson/*.netxml"))
     files.sort()
@@ -49,7 +49,7 @@ def newPoint(lat,lon):
         last_signal = int(info.find('snr-info')[0].text)
         essid = info.find('SSID')
         if essid == None:
-            temp = {"Signal":last_signal,"Time":last_time, "Longitude":lon,"Latitude":lat}
+            temp = {"Signal":last_signal,"Time":last_time, "Longitude":lon,"Latitude":lat,"VideoTime":video_time}
             if bssid in signals:
                 if signals[bssid]["Entries"][-1]["Time"] != last_time:
                     signals[bssid]["Entries"].append(temp)
@@ -65,6 +65,13 @@ def newPoint(lat,lon):
     
     '''After this script is run for the last time, the script approximate.py is run to add our best estimates'''
 
+
+#We have a program that runs in the background, keepig track of how long the video has recorded
+def getTime():
+    stamp = pickle.load(open("time.p",'rb'))
+    return stamp
+
+
 #Commented out everything because raspberry
 #def takePicture(lat,lon):
 #    '''Function that takes in x,y (latitude longitude) and a name and takes a picture, and saves the picture to that name.'''
@@ -75,5 +82,6 @@ def newPoint(lat,lon):
 #        camera.capture(name)
 
 lat,lon = getGPS()
-newPoint(lat,lon)
+time = getTime()
+newPoint(lat,lon,time)
 #takePicture(lat,lon)
