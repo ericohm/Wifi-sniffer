@@ -20,12 +20,14 @@ sudo iw dev wlan0 del > /dev/null 2>&1 &
 kismet_server > /dev/null 2>&1 &
 python gpstotext.py &
 
+
 echo "Starting up Kismet and GPS"
-sleep 30
+sleep 25
+echo "Start streaming video in 3 seconds"
+sleep 3
+python3 videoTime.py &
 
 echo "Everything up and running"
-
-echo heartbeat > /sys/class/leds/led0/trigger
 
 for i in {1..10000}
 do      
