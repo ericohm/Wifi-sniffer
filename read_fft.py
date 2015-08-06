@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 import scipy
 import os
 from time import *
