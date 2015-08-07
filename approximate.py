@@ -13,7 +13,7 @@ try:
 	signals = pickle.load(open(iteration+".p",'rb'))
 except (OSError,IOError,NameError):
 	signals = {}
-	
+
 #Some out commented code, I chose to go with comparing the radius to eachoter instead of absolute distances.
 #def getRadius2(x):
 #    logdistance = 1+math.log10(2.4*10**6)-187/20+2/5-x/20
@@ -28,7 +28,7 @@ def getRadius(macAdress):
 	sig = signals[macAdress]["Entries"]
 	theMax = float(-100)
 	for i in sig:
-		temp = [float(i["Signal"]),i["Latitude"],i["Longitude"]]
+		temp = [float(i["Signal"]),i["Latitude"],i["Longitude"],i["VideoTime"]]
 		theMax = float(max(theMax,i["Signal"]))
 		radius.append(temp)
 
@@ -49,14 +49,28 @@ def centerOfMass(macAdress):
         lat = lat+i[1]/temp
         lon = lon+i[2]/temp
         m = m+1/temp
-
     longitude = round(lon/m,6)
     latitude = round(lat/m,6)
-    return {"Longitude":longitude, "Latitude":latitude}
+
+    timeList = []
+    for i in points:
+    	dist = math.hypot(longitude - i[2], latitude - i[1])
+    	tempor = [dist,i[3]]
+    	timeList.append(tempor)
+
+    mindistance = 1000
+    theTime = 0
+    for i in timeList:
+    	if i[0]<mindistance:
+    		mindistance = i[0]
+    		theTime = i[1]
+
+    return {"Longitude":longitude, "Latitude":latitude,"VideoTime":theTime}
 
 #We add an estimate for every macAdress in signals.
 for i in signals:
 	signals[i]["Estimate"] = centerOfMass(i)
+
 
 #Save the signals so we can upload it via the app.js script.
 pickle.dump(signals,open(iteration+".p","wb"))
