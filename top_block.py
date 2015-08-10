@@ -112,7 +112,7 @@ if __name__ == '__main__':
     freq = 891000000
 
 
-    for i in range(0,100):
+    for i in range(0,100000):
         #freq = tb.rtlsdr_source_0.get_center_freq()
         print("The frequency is :" +str(freq))
         variable =tb.rtlsdr_source_0.set_center_freq(freq, 0)
