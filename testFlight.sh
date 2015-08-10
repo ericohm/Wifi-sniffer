@@ -38,15 +38,19 @@ kismet_server > /dev/null 2>&1 &
 kismet_pid=$!
 echo "Kismet PID is ",$kismet_pid
 
+
+echo "START VIDEO RECORDING IN 3"
+sleep 1
+echo "2"
+sleep 1
+echo "1"
+sleep 1
 python gpstotext.py &
 gps_pid=$!
 echo "gps PID is ",$gps_pid
 
 echo "Starting up GPS"
-python3 gpsWorking.py
-
-echo "Giving Kismet some time..."
-sleep 10
+#python3 gpsWorking.py
 
 ./top_block.py > /dev/null 2>&1 & 
 gnuradio_pid=$! 
@@ -69,8 +73,8 @@ readfft_pid=$!
 
 echo "Start streaming video in 3 seconds"
 sleep 3
-python3 videoTime.py &
-videotime_pid=$!
+#python videoTime.py &
+#videotime_pid=$!
 
 echo "Everything up and running"
 
