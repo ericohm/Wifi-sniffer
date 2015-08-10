@@ -19,10 +19,11 @@ iteration = "default"
 #Another threed is run where we contionously save the coordinates to a file called gps.p
 #The script which saves the coordinates is called gpstotext.py
 def getGPS():
-	cords = pickle.load(open("gps.p","rb"))
-	latitude = cords[0]
-	longitude = cords[1]
-	return latitude,longitude
+    cords = pickle.load(open("gps.p","rb"))
+    latitude = cords[0]
+    longitude = cords[1]
+    theTime = cords[2]
+    return latitude,longitude,theTime
 
 
 #This is where we save the information from the wifi togheter with gps coordinates.
@@ -56,9 +57,10 @@ def newPoint(lat,lon,video_time):
             else:
             	signals[bssid] = {"Entries":[]}
             	signals[bssid]["Entries"].append(temp)
-    for i in signals:
-    	print(i)
-    	print(signals[i]["Entries"])
+    print(signals)
+#    for i in signals:
+#    	print(i)
+#    	print(signals[i]["Entries"])
     	
     '''Saving the dictionary to a pickle'''
     pickle.dump(signals,open(iteration+".p","wb"))
@@ -67,9 +69,9 @@ def newPoint(lat,lon,video_time):
 
 
 #We have a program that runs in the background, keepig track of how long the video has recorded
-def getTime():
-    stamp = pickle.load(open("time.p",'rb'))
-    return stamp
+#def getTime():
+#    stamp = pickle.load(open("time.p",'rb'))
+#    return stamp
 
 
 #Commented out everything because raspberry
@@ -81,7 +83,6 @@ def getTime():
 #        name = "CORDS: "+str(lat) +","+ str(lon)+st+".jpg"
 #        camera.capture(name)
 
-lat,lon = getGPS()
-time = getTime()
+lat,lon,time = getGPS()
 newPoint(lat,lon,time)
 #takePicture(lat,lon)
